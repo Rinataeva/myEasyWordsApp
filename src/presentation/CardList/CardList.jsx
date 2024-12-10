@@ -1,6 +1,7 @@
 import { Card } from "../Card/Card";
 import { PureComponent } from "react";
 import "./CardList.css";
+import { cardApiService } from "../../infrastructure/CardApiService/CardApiService";
 
 export class CardList extends PureComponent {
   constructor(props) {
@@ -15,8 +16,7 @@ export class CardList extends PureComponent {
     this.loadData();
   }
   loadData = async () => {
-    const response = await fetch("http://itgirlschool.justmakeit.ru/api/words");
-    const data = await response.json();
+    const data = await cardApiService.getWords()
     console.log(data);
     this.setState({
       words: data,
@@ -64,7 +64,7 @@ export class CardList extends PureComponent {
               {"->"}
             </button>
           </div>
-          <div className="progress">Количество слов: {currentIndex + 1}</div>
+          <div className="progress">{currentIndex + 1}/{words.length}</div>
         </div>
       );
     }
